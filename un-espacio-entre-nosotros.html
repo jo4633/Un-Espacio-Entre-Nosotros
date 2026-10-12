@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un espacio entre nosotros 💜</title>
+<style>
+:root{--bg:#0e0f2e;--card:#1a1850;--v:#a78bfa;--p:#f9a8d4;--t:#f1ecff;--m:#b4aee0;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0,#33207a 0,transparent 55%),radial-gradient(ellipse at 90% 100%,#5b2260 0,transparent 50%),var(--bg);color:var(--t);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;overflow-x:hidden}
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0}
+.sky span{position:absolute;font-size:14px;opacity:.5;animation:tw 4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.1;transform:translateY(-8px)}}
+main{position:relative;z-index:1;max-width:520px;margin:0 auto;min-height:100vh;padding:calc(20px + env(safe-area-inset-top,0px)) 18px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;justify-content:center}
+.screen{animation:pop .7s cubic-bezier(.2,.9,.3,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+h1{font-family:Georgia,serif;font-size:2.2rem;line-height:1.15;text-align:center;margin:.3em 0 .15em;color:#f5e9ff}
+h2{font-family:Georgia,serif;font-size:1.4rem;line-height:1.35;text-align:center;margin:.6em 0 .2em;font-weight:normal}
+.sub{text-align:center;color:var(--m);font-size:1.05rem;margin:0 0 20px}
+.card{background:linear-gradient(165deg,#221f66,#14123b);border:1px solid rgba(167,139,250,.45);border-radius:28px;padding:18px 18px 20px;box-shadow:0 0 30px rgba(167,139,250,.22),inset 0 0 24px rgba(249,168,212,.06)}
+svg.il{display:block;width:100%;max-width:300px;height:auto;margin:0 auto;animation:fl 5s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-6px)}}
+button{display:block;width:100%;padding:14px;margin:9px 0 0;border-radius:16px;border:1px solid rgba(167,139,250,.5);background:rgba(167,139,250,.12);color:var(--t);font:inherit;font-size:1rem;cursor:pointer;transition:transform .15s,background .2s}
+button:hover{background:rgba(167,139,250,.25)}button:active{transform:scale(.97)}
+button.sel{background:rgba(249,168,212,.25);border-color:var(--p)}
+button.go{background:linear-gradient(90deg,#7c3aed,#db2777);border:0;font-weight:700;margin-top:16px}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--p);outline-offset:2px}
+.opts{margin-top:10px}
+textarea{width:100%;min-height:84px;margin:4px 0 8px;padding:12px;border-radius:14px;border:1px solid rgba(167,139,250,.45);background:#0c0b28;color:var(--t);font:inherit;resize:vertical}
+label{display:block;font-size:.9rem;color:var(--p);margin-top:8px}
+.msg{text-align:center;color:var(--m);font-size:.95rem;margin:12px 4px 0}
+.bar{height:8px;border-radius:99px;background:#2b2870;overflow:hidden;margin:2px 0 4px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a78bfa,#f9a8d4);border-radius:99px;transition:width .6s ease}
+.pt{font-size:.85rem;color:var(--m);text-align:center;margin-bottom:12px}
+.end p{font-size:1.08rem;line-height:1.6;text-align:center;margin:14px 0 0}
+@media(prefers-reduced-motion:reduce){.screen,svg.il,.sky span{animation:none}.bar i{transition:none}}
+</style></head><body>
+<div class="sky" aria-hidden="true"></div>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const V='#a78bfa',P='#f9a8d4',Y='#fde68a',W='#ddd6fe';
+const ht=(x,y,s,c=P)=>`<path transform="translate(${x} ${y}) scale(${s})" d="M0 10C-18-4-10-18 0-8C10-18 18-4 0 10Z" fill="${c}"/>`;
+const sr=(x,y,s,c=Y)=>`<path transform="translate(${x} ${y}) scale(${s})" d="M0-8L2.4-2.5 8.4-2.2 3.8 1.6 5.3 7.4 0 4.2-5.3 7.4-3.8 1.6-8.4-2.2-2.4-2.5Z" fill="${c}"/>`;
+const svg=b=>`<svg class="il" viewBox="0 0 200 120" role="img" aria-hidden="true">${b}</svg>`;
+const person=(x,hair,body)=>`<circle cx="${x}" cy="56" r="17" fill="#f5c49f"/><path d="M${x-18} 56Q${x-18} 36 ${x} 36Q${x+18} 36 ${x+18} 56Q${x+8} 46 ${x} 46Q${x-8} 46 ${x-18} 56Z" fill="${hair}"/><circle cx="${x-6}" cy="58" r="1.8" fill="#2a1b3d"/><circle cx="${x+6}" cy="58" r="1.8" fill="#2a1b3d"/><path d="M${x-5} 65Q${x} 69 ${x+5} 65" stroke="#2a1b3d" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M${x-26} 112Q${x-24} 80 ${x} 80Q${x+24} 80 ${x+26} 112Z" fill="${body}"/>`;
+const IL=[
+ svg(`<circle cx="125" cy="42" r="24" fill="${Y}" opacity=".9"/><ellipse cx="80" cy="66" rx="38" ry="18" fill="${V}"/><ellipse cx="112" cy="62" rx="30" ry="16" fill="${W}"/>${ht(100,98,1.4)}${sr(40,30,1.2)}${sr(170,85,1)}`),
+ svg(`<rect x="55" y="38" width="90" height="60" rx="8" fill="${W}"/><path d="M55 42L100 76 145 42" stroke="${V}" stroke-width="4" fill="none"/>${ht(100,70,1.1)}${sr(35,30,1.2)}${sr(165,30,1)}`),
+ svg(`${ht(82,62,3,V)}${ht(118,62,3)}${sr(100,20,1.5)}${sr(30,90,1)}${sr(172,92,1.2)}`),
+ svg(`<path d="M115 18A44 44 0 1 0 115 104A34 34 0 1 1 115 18Z" fill="${Y}"/>${ht(125,62,1.8)}${sr(160,30,1.2)}${sr(40,100,1)}`),
+ svg(`<rect x="62" y="12" width="76" height="96" rx="8" fill="#f5f3ff" transform="rotate(-5 100 60)"/><rect x="70" y="20" width="60" height="62" rx="4" fill="#7c3aed" transform="rotate(-5 100 60)"/>${sr(100,50,3.4)}${ht(100,96,1.1)}`),
+ svg(`<rect x="38" y="22" width="100" height="58" rx="22" fill="${W}"/><path d="M60 78L52 98 82 80Z" fill="${W}"/>${ht(88,52,2.2)}<rect x="130" y="62" width="40" height="28" rx="14" fill="${V}"/>${sr(150,76,.8,'#fff')}`),
+ svg(`<path d="M20 108Q60 92 130 36" stroke="${P}" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/>${sr(146,28,3)}${sr(40,30,1)}${sr(170,92,1.2)}${sr(90,18,.9)}`),
+ svg(`<path d="M25 98Q80 40 160 52" stroke="${V}" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/><circle cx="28" cy="92" r="9" fill="${P}"/><circle cx="46" cy="96" r="9" fill="${V}"/><path d="M160 52V20L184 30 160 40" fill="${P}" stroke="${P}" stroke-width="2" stroke-linejoin="round"/>${sr(100,24,1.1)}`),
+ svg(`${ht(100,46,3.2)}<rect x="52" y="82" width="52" height="22" rx="11" fill="#f5c49f" transform="rotate(-8 78 93)"/><rect x="96" y="82" width="52" height="22" rx="11" fill="#e0a98a" transform="rotate(8 122 93)"/>${sr(36,30,1)}${sr(166,34,1.1)}`),
+ svg(`<path d="M30 90L70 40 100 70 130 30 172 78" stroke="${V}" stroke-width="1.5" fill="none" opacity=".6"/>${[[30,90],[70,40],[130,30],[172,78]].map(a=>sr(a[0],a[1],1.2)).join('')}${ht(100,66,2.6)}`)
+];
+const Q=['¿Qué pequeño detalle puede alegrarte un día difícil?','¿Qué es algo que te gustaría que las personas entendieran mejor de ti?','¿Qué es lo que más valoras de nuestra amistad?','¿Qué necesitas de un amigo cuando no te sientes bien?','¿Qué recuerdo te hace sonreír cada vez que lo recuerdas?','¿Qué te hace sentir en confianza con alguien?','¿Qué sueño te gustaría cumplir en el futuro?','¿Qué actividad te gustaría que hiciéramos juntos?','¿Cómo puedo apoyarte mejor cuando tienes un día difícil?','¿Qué es algo bonito que te gustaría que nunca cambiara de nuestra amistad?'];
+let i=0,mode=null;
+const sky=$('.sky');for(let k=0;k<22;k++){const s=document.createElement('span');s.textContent=['✦','✧','♡','·'][k%4];s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;color:${k%3?'#c4b5fd':'#f9a8d4'}`;sky.appendChild(s)}
+function show(h){app.innerHTML=`<div class="screen">${h}</div>`;scrollTo(0,0)}
+function cover(){show(`${svg(`${person(75,'#6b3f1d','#7c3aed')}${person(125,'#2b1b17','#db2777')}${ht(100,26,1.9)}${sr(30,40,1.2)}${sr(172,44,1)}${sr(100,100,.8)}`)}<h1>Un espacio entre nosotros 💜</h1><p class="sub">Diez preguntas para conocernos mejor</p><button class="go" onclick="i=0;mode=null;draw()">Comenzar</button><p class="msg">Sin prisa y sin presión. Se responde solo lo que apetezca.</p>`)}
+function draw(){
+ const last=i==9,left=10-(i+1),pct=(i)/10*100;
+ let body='';
+ if(mode=='r')body=`<label for="a1">Tu respuesta</label><textarea id="a1" placeholder="Escribe lo que quieras compartir…"></textarea><label for="a2">La respuesta de tu amig@</label><textarea id="a2" placeholder="Si quiere, puede escribirla aquí…"></textarea><p class="msg">Lo que escribas no se guarda en ningún sitio: se borra al cambiar de pregunta.</p>`;
+ else if(mode=='p')body=`<p class="msg">Sin prisa 🌙 Piénsalo con calma. Puedes volver a esta pregunta cuando quieras o seguir con la siguiente.</p>`;
+ show(`<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${i}"><i style="width:${pct}%"></i></div><div class="pt">Pregunta ${i+1} de 10 · ${last?'¡es la última!':left==1?'queda 1 más':`quedan ${left} más`}</div>
+ <div class="card">${IL[i]}<h2>${Q[i]}</h2>${body}<div class="opts"><button class="${mode=='r'?'sel':''}" onclick="mode='r';draw()">Quiero responder</button><button class="${mode=='p'?'sel':''}" onclick="mode='p';draw()">Prefiero pensarlo</button><button onclick="nx()">Pasar pregunta</button></div></div>
+ <button class="go" onclick="nx()">${last?'Terminar 💜':'Siguiente pregunta'}</button>`);
+ requestAnimationFrame(()=>{const b=$('.bar i');if(b)b.style.width=((i+1)/10*100)+'%'});
+ if(mode=='r'){const a=$('#a1');if(a)a.focus({preventScroll:true})}
+}
+function nx(){mode=null;i++;i>=10?end():draw()}
+function end(){show(`<div class="end card">${svg(`${person(72,'#6b3f1d','#7c3aed')}${person(128,'#2b1b17','#db2777')}${ht(100,30,2.4)}${sr(28,34,1.3)}${sr(174,40,1.1)}${sr(100,100,.9)}${sr(48,100,.8)}${sr(156,98,.8)}`)}<h2>Gracias por este ratito 💜</h2><p>Gracias por compartir este ratito conmigo. No tenemos que saberlo todo el uno del otro para construir una amistad bonita. Lo importante es poder ser nosotros mismos, escucharnos y respetar nuestros tiempos. 💜</p></div><button onclick="cover()">Volver al inicio</button>`)}
+cover();
+</script></body></html>
